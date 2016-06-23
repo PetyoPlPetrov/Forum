@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+</head>
+<body>
+
+<table border="1">
+    <tr>
+        <td> Answer Body</td>
+        <td>Author name</td>
+        <br/>
+
+    </tr>
+    <tr th:each="ans : ${topic.getAnswers()}">
+        <td th:text="${ans.getBody()}">
+
+        </td>
+        <td th:text="${ans.getAuthor().getUsername()}">
+
+        </td>
+    </tr>
+</table>
+<br/>
+<a th:href="@{/topic/}+${topic.getId()}+'/addAns'">Add new answer</a>
+</body>
+</html>

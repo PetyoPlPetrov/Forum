@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Enter the site</title>
+</head>
+<body>
+<br/>
+<center>
+    <form th:method="POST" th:object="${userDto}" >
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+        Username <input type="text" name="username"/><br/>
+        password <input type="password" name="password"/><br/>
+        <input type="submit" value="Register!"/>
+    </form>
+</center>
+</body>
+</html>
