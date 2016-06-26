@@ -10,7 +10,7 @@ public class UserAddForm {
     private String password;
     private int id;
 
-    private Role role = Role.USER;
+    private Role role = Role.ROLE_USER;
     public int getId() {
         return id;
     }

@@ -26,6 +26,7 @@ import java.util.List;
  */
 @Controller
 public class TopicControler {
+
     @Autowired
     private TopicService topicService;
     @Autowired
@@ -39,10 +40,6 @@ public class TopicControler {
     //topic
     @RequestMapping(value = "/categories/{categoryId}/topics/add", method = RequestMethod.GET)
     public String addTopicForm(@PathVariable Long categoryId, Model model, HttpServletRequest request) {
-//        Object userIdAttrib = request.getSession().getAttribute("userId");
-//        if (userIdAttrib == null) {
-//            return "redirect:/";
-//        }
 
         List<Category> categories = categoryService.getAll();
         Category current = categoryService.getById(categoryId);
@@ -54,13 +51,9 @@ public class TopicControler {
 
     @RequestMapping(value = "/categories/{categoryId}/topics/add", method = RequestMethod.POST)
     public String createTopicProces(@ModelAttribute TopicAddForm topicDto, HttpServletRequest request, @PathVariable Long categoryId) throws Exception {
-//        Object userIdAttrib = request.getSession().getAttribute("userId");
-//        if (userIdAttrib == null) {
-//            return "redirect:/";
-//        }
 //
-//        int userId=  (int)userIdAttrib;
-        CurrentUser currentUser = (CurrentUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        CurrentUser currentUser = (CurrentUser) SecurityContextHolder.
+                getContext().getAuthentication().getPrincipal();
         topicDto.setAuthorId(currentUser.getId());
         this.topicService.create(topicDto);
 
@@ -69,12 +62,7 @@ public class TopicControler {
 
     @RequestMapping(value = "/categories", method = RequestMethod.GET)
     public String allCategories(Model m) throws Exception {
-//        User user = userService.getUserBYIdANdPassword(userDto.getUsername(), Integer.parseInt(userDto.getPassword()));
-//        if (user == null) {
-//            throw new Exception("invalid username or pass");
-//        }
 
-        //request.getSession().setAttribute("userId", user.getId());
         List<Category> categories = categoryService.getAll();
         m.addAttribute("categories", categories);
         return "index";

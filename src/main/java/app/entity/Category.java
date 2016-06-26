@@ -19,6 +19,7 @@ public class Category {
     private String name;
     private Set<Topic> topics = new HashSet<>(0);
     private Date createdOn;
+    private Set<Authority> authorities=new HashSet<>();
 
 
     public String getName() {
@@ -63,6 +64,12 @@ public class Category {
         this.name = subject;
 
     }
+    @ManyToMany
+    public Set<Authority> getAuthorities() {
+        return authorities;
+    }
 
-
+    public void setAuthorities(Set<Authority> authorities) {
+        this.authorities = authorities;
+    }
 }
