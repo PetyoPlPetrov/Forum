@@ -5,6 +5,7 @@ import app.dto.AnswerAddForm;
 import app.dto.CategoryAddForm;
 import app.dto.TopicAddForm;
 import app.dto.UserAddForm;
+import app.entity.Authority;
 import app.entity.Category;
 import app.entity.Role;
 import app.entity.Topic;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -42,26 +44,29 @@ public class CategoryControler {
     @Autowired
     private TopicService topicservice;
 
-   // @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/categories/{id}", method = RequestMethod.GET)
-    public String getInfo(@PathVariable Long id, Model model, HttpServletRequest request) throws Exception {
+    public String getInfo(@PathVariable Long id, Model model) throws Exception {
 
         Category category = this.categoryService.getById(id);
 
         if (category == null) {
             throw new Exception("category does not exist");
         }
-        CurrentUser currentUser=(CurrentUser) SecurityContextHolder.
+        CurrentUser currentUser = (CurrentUser) SecurityContextHolder.
                 getContext().getAuthentication().getPrincipal();
-        boolean isAdmin=currentUser.getRole().equals(Role.ADMIN);
 
-        if(id==1&&!isAdmin){
-            throw  new Exception("You must be an admin");
+        boolean hasPermission = category.getAuthorities().stream()
+                .anyMatch(categoryy ->
+                        Arrays.stream(currentUser.getRole())
+                                .anyMatch(role -> categoryy.getName().equalsIgnoreCase(role.toString())));
+        if(!hasPermission){
+            throw new Exception("You are not an admin");
         }
+
         model.addAttribute("category", category);
         return "categoryone";
     }
-
 
 
 }
