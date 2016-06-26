@@ -45,7 +45,6 @@ public class CategoryControler {
     @RequestMapping(value = "/categories/{id}", method = RequestMethod.GET)
     public String getInfo(@PathVariable Long id, Model model, HttpServletRequest request) throws Exception {
 
-
         Category category = this.categoryService.getById(id);
 
         if (category == null) {

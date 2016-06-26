@@ -40,25 +40,5 @@ public class RegisterControler {
         return "redirect:/login";
     }
 
-//    @RequestMapping(value = "/register", method = RequestMethod.GET)
-//    public String registerProces(Model m) throws Exception {
-//        m.addAttribute("userDto",new UserAddForm());
-//
-//        return "/register";
-//    }
-//
-//    @RequestMapping(value = "/register", method = RequestMethod.POST)
-//    public String registerProcesForm(Model m, @ModelAttribute UserAddForm userDto, HttpServletRequest request) throws Exception {
-//
-//        userService.create(userDto);
-//        User user = userService.getUserBYIdANdPassword(userDto.getUsername(),(userDto.getPassword()));
-//        if (user == null) {
-//            throw new Exception("invalid username or pass");
-//        }
-//
-//        request.getSession().setAttribute("userId", user.getId());
-//        List<Category> categories = categoryService.getAll();
-//        m.addAttribute("categories", categories);
-//        return "index";
-//    }
+
 }

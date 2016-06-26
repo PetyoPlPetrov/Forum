@@ -19,7 +19,7 @@ import java.util.List;
  * Created by PetyoPetrov on 30.05.2016 г..
  */
 @Controller
-public class UserControler {
+public class Login {
     @Autowired
     private UserService userService;
 
