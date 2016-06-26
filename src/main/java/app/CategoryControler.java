@@ -6,6 +6,7 @@ import app.dto.CategoryAddForm;
 import app.dto.TopicAddForm;
 import app.dto.UserAddForm;
 import app.entity.Category;
+import app.entity.Role;
 import app.entity.Topic;
 import app.service.AnswerService;
 import app.service.CategoryService;
@@ -41,7 +42,7 @@ public class CategoryControler {
     @Autowired
     private TopicService topicservice;
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+   // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/categories/{id}", method = RequestMethod.GET)
     public String getInfo(@PathVariable Long id, Model model, HttpServletRequest request) throws Exception {
 
@@ -49,6 +50,13 @@ public class CategoryControler {
 
         if (category == null) {
             throw new Exception("category does not exist");
+        }
+        CurrentUser currentUser=(CurrentUser) SecurityContextHolder.
+                getContext().getAuthentication().getPrincipal();
+        boolean isAdmin=currentUser.getRole().equals(Role.ADMIN);
+
+        if(id==1&&!isAdmin){
+            throw  new Exception("You must be an admin");
         }
         model.addAttribute("category", category);
         return "categoryone";

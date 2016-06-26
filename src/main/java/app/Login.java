@@ -34,19 +34,7 @@ public class Login {
     }
 
 
-//tova ne trqbva da go ima
-//    @RequestMapping(value = "/login", method = RequestMethod.POST)
-//    public String LogingProcesForm(Model m, @ModelAttribute UserAddForm userDto) throws Exception {
-////        User user = userService.getUserBYIdANdPassword(userDto.getUsername(), Integer.parseInt(userDto.getPassword()));
-////        if (user == null) {
-////            throw new Exception("invalid username or pass");
-////        }
-//
-//        //request.getSession().setAttribute("userId", user.getId());
-//        List<Category> categories = categoryService.getAll();
-//        m.addAttribute("categories", categories);
-//        return "index";
-//    }
+
 
 
 }

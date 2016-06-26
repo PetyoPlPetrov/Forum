@@ -36,14 +36,6 @@ public class TopicControler {
     @Autowired
     private CategoryService categoryService;
 
-
-
-
-
-
-
-
-
     //topic
     @RequestMapping(value = "/categories/{categoryId}/topics/add", method = RequestMethod.GET)
     public String addTopicForm(@PathVariable Long categoryId, Model model, HttpServletRequest request) {
