@@ -2,8 +2,11 @@ package app;
 
 import app.autentication.CurrentUser;
 import app.dto.AnswerAddForm;
+import app.dto.TopicAddForm;
+import app.entity.Category;
 import app.entity.Topic;
 import app.service.AnswerService;
+import app.service.CategoryService;
 import app.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.management.modelmbean.InvalidTargetObjectTypeException;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * Created by PetyoPetrov on 27.05.2016 г..
@@ -28,58 +32,62 @@ public class TopicControler {
     private AnswerService answerService;
 
 
-    @RequestMapping(value = "/topics/{topicId}", method = RequestMethod.GET)
-    public String addTopicAnswer(@PathVariable Long topicId, Model model, HttpServletRequest request) throws Exception {
+
+    @Autowired
+    private CategoryService categoryService;
+
+
+
+
+
+
+
+
+
+    //topic
+    @RequestMapping(value = "/categories/{categoryId}/topics/add", method = RequestMethod.GET)
+    public String addTopicForm(@PathVariable Long categoryId, Model model, HttpServletRequest request) {
 //        Object userIdAttrib = request.getSession().getAttribute("userId");
 //        if (userIdAttrib == null) {
 //            return "redirect:/";
 //        }
-        Topic topic = topicService.getById(topicId);
-        if (topic == null) {
 
-            throw new Exception("no such a topic");
-        }
-        model.addAttribute("topic", topic);
-        return "topicone";
-
-
+        List<Category> categories = categoryService.getAll();
+        Category current = categoryService.getById(categoryId);
+        model.addAttribute("topicDto", new TopicAddForm());
+        model.addAttribute("allCategories", categories);
+        model.addAttribute("currentCategory", current);
+        return "topics/add";
     }
 
-
-    @RequestMapping(value = "/topic/{topicId}/addAns", method = RequestMethod.GET)
-    public String addTopicAnsForm(Model model, HttpServletRequest request, @PathVariable Long topicId) throws Exception {
+    @RequestMapping(value = "/categories/{categoryId}/topics/add", method = RequestMethod.POST)
+    public String createTopicProces(@ModelAttribute TopicAddForm topicDto, HttpServletRequest request, @PathVariable Long categoryId) throws Exception {
 //        Object userIdAttrib = request.getSession().getAttribute("userId");
 //        if (userIdAttrib == null) {
 //            return "redirect:/";
 //        }
-        Topic topic = topicService.getById(topicId);
-        if(topic==null){
-            throw new Exception("there is no such a topic");
-        }
-        model.addAttribute("ansDto", new AnswerAddForm());
-        model.addAttribute("topic",topic);
-        return "addAns";
+//
+//        int userId=  (int)userIdAttrib;
+        CurrentUser currentUser = (CurrentUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        topicDto.setAuthorId(currentUser.getId());
+        this.topicService.create(topicDto);
 
+        return "redirect:/categories/" + categoryId;
     }
 
-    @RequestMapping(value = "/topic/{topicId}/addAns", method = RequestMethod.POST)
-    public String addAnswerProcess(HttpServletRequest request, @PathVariable Long topicId, @ModelAttribute AnswerAddForm form) {
-//        Object userIdAttrib = request.getSession().getAttribute("userId");
-//        if (userIdAttrib == null) {
-//            return "redirect:/";
+    @RequestMapping(value = "/categories", method = RequestMethod.GET)
+    public String allCategories(Model m) throws Exception {
+//        User user = userService.getUserBYIdANdPassword(userDto.getUsername(), Integer.parseInt(userDto.getPassword()));
+//        if (user == null) {
+//            throw new Exception("invalid username or pass");
 //        }
-//        Long userID = (Long)userIdAttrib;
-        CurrentUser currentUser=(CurrentUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        form.setTopicId(topicId);
-        form.setUserId(currentUser.getId());
-
-        answerService.create(form);
-        Topic topic=topicService.getById(topicId);
-
-        return "redirect:/topics/"+topic.getId();
-
+        //request.getSession().setAttribute("userId", user.getId());
+        List<Category> categories = categoryService.getAll();
+        m.addAttribute("categories", categories);
+        return "index";
     }
+
 
 
 }

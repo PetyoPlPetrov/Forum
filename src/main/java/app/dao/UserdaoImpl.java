@@ -46,7 +46,8 @@ public class UserdaoImpl implements UserDao {
 
     @Override
     public User getUserById(Long idd) {
-        Query query= em.createQuery("SELECT u FROM User u WHERE u.id=:idd").setParameter("idd",idd);
+        Query query= em.createQuery("SELECT u FROM User u WHERE u.id=:idd").setParameter("idd",
+                Integer.parseInt(String.valueOf(idd)));
         List<User> users=query.getResultList();
         if(users.isEmpty()){
             return null;

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by PetyoPetrov on 31.05.2016 г..
@@ -36,5 +37,15 @@ public class AnswerServiceImpl implements AnswerService {
         answer.setTopic(topicDao.getByID(form.getTopicId()));
         answer.setAuthor(userDao.getUserById(form.getUserId()));
         answerDao.create(answer);
+    }
+
+    @Override
+    public List<Answer> getAnswers(Long id, int page) {
+        return this.answerDao.getAnswers(id,page);
+    }
+
+    @Override
+    public Long getCount(Long topicId) {
+        return this.answerDao.getCount(topicId);
     }
 }

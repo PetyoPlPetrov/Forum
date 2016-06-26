@@ -9,15 +9,18 @@
     <h1 th:text="${category.getName()}"></h1>
 </center>
 <a th:href="@{/categories/}+${category.getId()}+'/topics/add'">Add new topic</a>
+<br/>
 <table border="1">
+    <br/>
     <tr>
         <td> Topic Title</td>
         <td>Author name</td>
 
+
     </tr>
     <tr th:each=" topic : ${category.getTopics()}">
     <td>
-        <a th:href="@{/topics/}+ ${topic.getId()}" th:text="${topic.getTitle()}"></a>
+        <a th:href="@{/topics/}+ ${topic.getId()}+'/1'" th:text="${topic.getTitle()}"></a>
     </td>
     <td th:text="${topic.getAuthor().getUsername()}">
 

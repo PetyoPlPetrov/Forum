@@ -6,7 +6,7 @@
 </head>
 <body>
 <td>Answer</td>
-<form th:action="@{/topic/}+${topic.getId()}+ '/addAns'"
+<form th:action="@{/topic/}+${topic.getId()}+ '/addAnswer'"
       th:method="POST" th:object="${ansDto}">
 
     Body  <textarea name="body" rows="15"></textarea><br/>
