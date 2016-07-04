@@ -20,5 +20,7 @@ public interface TopicService {
    Topic getById(Long id);
 
     void create(TopicAddForm topicAddForm) throws Exception;
+    void delete(Topic topic);
+    void update(Topic topic);
 
 }

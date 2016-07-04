@@ -26,7 +26,7 @@ public class AnswerDaoImpl implements AnswerDao {
     @Override
     public List<Answer> getAnswers(Long id,int page) {
         Query query=this.em.createQuery("SELECT a FROM Answer a WHERE a.topic.id= :topicId ORDER BY a.id")
-                .setParameter("topicId",Integer.parseInt(String.valueOf(id)))
+                .setParameter("topicId",id)
                 .setFirstResult((page-1)*2)
                 .setMaxResults(2);
         List<Answer> answers=query.getResultList();
@@ -41,7 +41,7 @@ public class AnswerDaoImpl implements AnswerDao {
     @Override
     public Long getCount(Long topicId) {
         Query query=this.em.createQuery("SELECT count(a) FROM Answer a WHERE a.topic.id= :topicId")
-                .setParameter("topicId",Integer.parseInt(String.valueOf(topicId)));
+                .setParameter("topicId",topicId);
         List<Long> result=query.getResultList();
         if(result.isEmpty()){
             return 0L;

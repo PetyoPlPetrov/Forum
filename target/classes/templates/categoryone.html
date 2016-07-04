@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Getting Started: Serving Web Content</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
 <center>
@@ -18,14 +18,26 @@
 
 
     </tr>
-    <tr th:each=" topic : ${category.getTopics()}">
-    <td>
-        <a th:href="@{/topics/}+ ${topic.getId()}+'/1'" th:text="${topic.getTitle()}"></a>
-    </td>
-    <td th:text="${topic.getAuthor().getUsername()}">
 
-    </td>
+    <tr th:each=" topic : ${category.getTopics()}">
+        <td>
+            <a th:href="@{/topics/}+ ${topic.getId()}+'/1'" th:text="${topic.getTitle()}"></a>
+        </td>
+        <td th:text="${topic.getAuthor().getUsername()}">
+
+        </td>
+
+
+        <td  th:if="${isAdmin == true or currentUser.getId() == topic.getAuthor().getId() }">
+            <a th:href ="@{/topics/}+ ${topic.getId()}+'/edit'" th:text="edit" ></a>
+        </td>
+
+        <td  th:if="${isAdmin == true  or currentUser.getId() == topic.getAuthor().getId()}">
+            <a th:href="@{/topics/}+ ${topic.getId()}+'/confirm'" th:text="delete" ></a>
+        </td>
+
     </tr>
+
 </table>
 </body>
 </html>

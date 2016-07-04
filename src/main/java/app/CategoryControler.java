@@ -31,6 +31,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
 
 /**
  * Created by PetyoPetrov on 25.05.2016 г..
@@ -44,7 +45,7 @@ public class CategoryControler {
     @Autowired
     private TopicService topicservice;
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/categories/{id}", method = RequestMethod.GET)
     public String getInfo(@PathVariable Long id, Model model) throws Exception {
 
@@ -60,9 +61,14 @@ public class CategoryControler {
                 .anyMatch(categoryy ->
                         Arrays.stream(currentUser.getRole())
                                 .anyMatch(role -> categoryy.getName().equalsIgnoreCase(role.toString())));
-        if(!hasPermission){
+        if (!hasPermission) {
             throw new Exception("You are not an admin");
         }
+        boolean isAdmin = Stream.of(currentUser.getRole()).anyMatch(userRole -> userRole.name().
+                equalsIgnoreCase("ROLE_ADMIN"));
+
+        model.addAttribute("isAdmin", isAdmin);
+        model.addAttribute("currentUser", currentUser);
 
         model.addAttribute("category", category);
         return "categoryone";

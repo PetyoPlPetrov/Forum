@@ -50,7 +50,8 @@ public class TopicControler {
     }
 
     @RequestMapping(value = "/categories/{categoryId}/topics/add", method = RequestMethod.POST)
-    public String createTopicProces(@ModelAttribute TopicAddForm topicDto, HttpServletRequest request, @PathVariable Long categoryId) throws Exception {
+    public String createTopicProces(@ModelAttribute TopicAddForm topicDto,
+                                    @PathVariable Long categoryId) throws Exception {
 //
         CurrentUser currentUser = (CurrentUser) SecurityContextHolder.
                 getContext().getAuthentication().getPrincipal();
@@ -67,6 +68,58 @@ public class TopicControler {
         m.addAttribute("categories", categories);
         return "index";
     }
+    @RequestMapping(value = "/topics/{topicId}/confirm",method = RequestMethod.GET)
+    public String confirmDeleting(@PathVariable Long topicId,Model model){
+        Topic topic=this.topicService.getById(topicId);
+        Category category=this.categoryService.getById(topic.getCategory().getId());
+        model.addAttribute("topic",topic);
+        model.addAttribute("category",category);
+
+        return "topics/confirmDelete";
+
+    }
+
+    @RequestMapping(value = "/topics/{topicId}/delete",method = RequestMethod.GET)
+    public String deleteTopic(@PathVariable Long topicId ){
+        Topic topic=topicService.getById(topicId);
+        Category currentCategory=topic.getCategory();
+
+
+
+        this.topicService.delete(topic);
+        return "redirect:/categories/" + currentCategory.getId();
+    }
+    @RequestMapping(value = "/topics/{topicId}/edit",method = RequestMethod.GET)
+    public String editTopic(@PathVariable Long topicId,Model model ) throws Exception {
+
+        Topic topic=topicService.getById(topicId);
+
+        if(topic==null){
+            throw new Exception("there is no such a topic");
+        }
+        List<Category> categories = categoryService.getAll();
+        Category current = categoryService.getById(topic.getCategory().getId());
+        model.addAttribute("topicDto", new TopicAddForm());
+        model.addAttribute("allCategories", categories);
+        model.addAttribute("currentCategory", current);
+
+
+
+        return "topics/update";
+    }
+    @RequestMapping(value = "/topics/{topicId}/edit",method = RequestMethod.POST)
+    public String editTopicProcessing(@ModelAttribute TopicAddForm topicDto,@PathVariable Long topicId){
+
+        Topic topic=this.topicService.getById(topicId);
+        topic.setBody(topicDto.getBody());
+        topic.setTitle(topicDto.getTitle());
+        Category newcategory=this.categoryService.getById(topicDto.getCategoryId());
+        topic.setCategory(newcategory);
+       this.topicService.update(topic);
+        return "redirect:/categories/" + topic.getCategory().getId();
+    }
+
+
 
 
 

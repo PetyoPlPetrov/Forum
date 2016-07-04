@@ -9,4 +9,7 @@ public interface TopicDao {
 
     void create(Topic topic);
     Topic getByID(Long id);
+    void delete(Topic topic);
+    void update(Topic topic);
+
 }

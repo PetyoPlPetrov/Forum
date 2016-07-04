@@ -59,4 +59,15 @@ public class TopicServiceImpl implements TopicService {
 
         topicDao.create(top);
     }
+
+    @Override
+    public void delete(Topic topic) {
+
+        this.topicDao.delete(topic);
+    }
+
+    @Override
+    public void update(Topic topic) {
+        this.topicDao.update(topic);
+    }
 }

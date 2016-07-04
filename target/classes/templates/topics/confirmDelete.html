@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <!--<title>Confirm You want to delete the topic</title>-->
+</head>
+
+<body>
+<center>
+    Confirm You want to delete the topic
+</center>
+
+<center>
+<tr>
+    <a th:href="@{/topics/}+ ${topic.getId()}+'/delete'" th:text="delete" ></a>
+
+    <a th:href="@{/categories/}+ ${category.getId()}" th:text="back" ></a>
+</tr>
+</center>
+</body>
+</html>

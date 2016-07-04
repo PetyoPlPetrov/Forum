@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    
+</head>
+<body>
+<form
+      th:method="POST" th:object="${topicDto}">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+
+    Title <input type="text" name="title"/><br/>
+    Body  <textarea name="body" rows="15"></textarea><br/>
+    Category:
+    <select name="categoryId">
+        <option th:each ="cat : ${allCategories}"
+                th:value="${cat.getId()}"
+                th:selected="${cat.getId().equals(currentCategory.getId())}"
+                th:text="${cat.getName()}"></option>
+
+    </select>
+    <br/>
+    <input type="submit" value="Update"/>
+</form>
+</body>
+</html>

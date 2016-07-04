@@ -26,8 +26,7 @@ public class TopicDaoImpl implements TopicDao {
 
     @Override
     public Topic getByID(Long id) {
-        Query query=em.createQuery("SELECT t FROM Topic t WHERE t.id=:id").setParameter("id",Integer.valueOf
-                (String.valueOf(id)));
+        Query query=em.createQuery("SELECT t FROM Topic t WHERE t.id=:id").setParameter("id",id);
          List<Topic> topics=query.getResultList();
         if(topics.isEmpty()){
             return null;
@@ -35,4 +34,19 @@ public class TopicDaoImpl implements TopicDao {
 
         return topics.get(0);
     }
+
+    @Override
+    public void delete(Topic topic) {
+        em.remove(topic);
+        Query query=em.createQuery("DELETE  Topic  WHERE id=:id").setParameter("id",topic.getId());
+        query.executeUpdate();
+
+    }
+
+    @Override
+    public void update(Topic topic) {
+        this.em.persist(topic);
+        this.em.flush();
+    }
+
 }
