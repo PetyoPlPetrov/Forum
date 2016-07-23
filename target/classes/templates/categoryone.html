@@ -88,9 +88,9 @@
                             <a href="" class="dropdown-toggle" data-toggle="dropdown">My Options<span
                                     class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a th:href="@{/topics/}+ ${topic.getId()}+'/edit'">edit</a></li>
+                                <li  th:if="${isAdmin == true or currentUser.getId() == topic.getAuthor().getId()}" ><a th:href="@{/topics/}+ ${topic.getId()}+'/edit'">edit</a></li>
 
-                                <li><a th:href="@{/topics/}+ ${topic.getId()}+'/confirm'">delete</a></li>
+                                <li  th:if="${isAdmin == true or currentUser.getId() == topic.getAuthor().getId()}" ><a th:href="@{/topics/}+ ${topic.getId()}+'/confirm'">delete</a></li>
 
                             </ul>
                         </li>
