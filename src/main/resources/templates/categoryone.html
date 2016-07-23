@@ -3,22 +3,65 @@
 <head>
     <title>Getting Started: Serving Web Content</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"/>
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"
+          integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous"/>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+            integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+            crossorigin="anonymous"></script>
+
+
 </head>
 <body>
+<div class="container-fluid">
+    <h3></h3>
+    <div class="row">
+        <div class="col-md-4" style="background-color: red"></div>
+        <div class="col-md-4" style="background-color: green"></div>
+        <div class="col-md-4" style="background-color: blue"></div>
+
+    </div>
+
+
+</div>
+<div class="navbar-header">
+    <em> MY FORUM</em>
+
+</div>
 <center>
-    <h1 th:text="${category.getName()}"></h1>
+    <strong><em><h3 class="text-muted" th:text="${category.getName()}"></h3></em></strong>
 </center>
-<a th:href="@{/categories/}+${category.getId()}+'/topics/add'">Add new topic</a>
-<br/>
-<table border="1">
+
+<h4>
+
+    <a th:href="@{/categories/}+${category.getId()}+'/topics/add'"><strong>Add a<em> new topic</em></strong></a>
     <br/>
+</h4>
+<table class="table table-condensed">
+    <thead>
     <tr>
-        <td> Topic Title</td>
-        <td>Author name</td>
-
-
+        <th class="col-md-4" style="background-color: #DAE7F5">Topic title</th>
+        <th class="col-md-4" style="background-color: #B5FAAC">Author name</th>
+        <th class="col-md-4" style="background-color: #F7D9C6">Options</th>
+        <th class="col-md-4" style="background-color: #F7D9C6"></th>
     </tr>
+    <!--<div class="row">-->
+    <!--<div class="col-md-4" style="background-color: #DAE7F5">Topic title</div>-->
+    <!--<div class="col-md-4" style="background-color: #7AF07A">Author name</div>-->
+    <!--<div class="col-md-4" style="background-color: #F5BA7F"> Options</div>-->
 
+    <!--<div class="col-md-4" style="background-color: blue"></div>-->
+
+
+    <!--</div>-->
+
+    </thead>
+    <tbody>
     <tr th:each=" topic : ${category.getTopics()}">
         <td>
             <a th:href="@{/topics/}+ ${topic.getId()}+'/1'" th:text="${topic.getTitle()}"></a>
@@ -28,16 +71,96 @@
         </td>
 
 
-        <td  th:if="${isAdmin == true or currentUser.getId() == topic.getAuthor().getId() }">
-            <a th:href ="@{/topics/}+ ${topic.getId()}+'/edit'" th:text="edit" ></a>
-        </td>
+        <!--<td th:if="${isAdmin == true or currentUser.getId() == topic.getAuthor().getId() }">-->
+        <!--<a th:href="@{/topics/}+ ${topic.getId()}+'/edit'" th:text="edit"></a>-->
+        <!--</td>-->
 
-        <td  th:if="${isAdmin == true  or currentUser.getId() == topic.getAuthor().getId()}">
-            <a th:href="@{/topics/}+ ${topic.getId()}+'/confirm'" th:text="delete" ></a>
+        <!--<td th:if="${isAdmin == true  or currentUser.getId() == topic.getAuthor().getId()}">-->
+        <!--<a th:href="@{/topics/}+ ${topic.getId()}+'/confirm'" th:text="delete"></a>-->
+        <!--</td>-->
+
+        <td>
+            <nav class="nav navbar-inverse">
+                <div class="container-fluid">
+
+                    <div class="navbar-nav">
+                        <li class="dropdown">
+                            <a href="" class="dropdown-toggle" data-toggle="dropdown">My Options<span
+                                    class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a th:href="@{/topics/}+ ${topic.getId()}+'/edit'">edit</a></li>
+
+                                <li><a th:href="@{/topics/}+ ${topic.getId()}+'/confirm'">delete</a></li>
+
+                            </ul>
+                        </li>
+                    </div>
+                </div>
+            </nav>
+
+            <!--<nav class=" navbar-inverse">-->
+                <!--<div class="container-fluid">-->
+
+                    <!--<div>-->
+                        <!--<ul class="nav navbar-nav">-->
+                            <!--<li class="active"><a href="#">friends</a> </li>-->
+                            <!--<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">-->
+                                <!--MyOptions   <span class="caret"></span></a>-->
+                            <!--<ul class="dropdown-menu">-->
+                                <!--<li><a href="#"> ppppppp</a></li>-->
+                                <!--<li><a href="#"> fffffff</a></li>-->
+
+                            <!--</ul>-->
+                            <!--</li>-->
+                        <!--</ul>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+            <!--</nav>-->
+
+
         </td>
+        <!--<div >-->
+        <!--<li class="dropdown">-->
+        <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown">My Options<span class="caret"></span></a>-->
+        <!--<ul class="dropdown-menu">-->
+        <!--<li th:if="${isAdmin == true or currentUser.getId() == topic.getAuthor().getId() }">-->
+        <!--<a th:href="@{/topics/}+ ${topic.getId()}+'/edit'" th:text="edit"></a>-->
+        <!--</li>-->
+
+        <!--<li th:if="${isAdmin == true  or currentUser.getId() == topic.getAuthor().getId()}">-->
+        <!--<a th:href="@{/topics/}+ ${topic.getId()}+'/confirm'" th:text="delete"></a>-->
+        <!--</li>-->
+
+        <!--</ul>-->
+
+        <!--</li>-->
+
+        <!--</div>-->
 
     </tr>
 
+
+    </tbody>
+
+
 </table>
+<!--<div class="container-fluid">-->
+    <!--<h3></h3>-->
+    <!--<div class="row">-->
+        <!--<div class="col-md-4" style="background-color: red"></div>-->
+        <!--<div class="col-md-4" style="background-color: green"></div>-->
+        <!--<div class="col-md-4" style="background-color: blue"></div>-->
+
+    <!--</div>-->
+
+
+<!--</div>-->
+<!--<div class="container">-->
+    <!--<div class="embed-responsive embed-responsive-4by3">-->
+        <!--<iframe class="embed-responsive-item" src="http://www.youtube.com/embed/9eG0nSZEeCw"></iframe>-->
+
+    <!--</div>-->
+<!--</div>-->
 </body>
 </html>
